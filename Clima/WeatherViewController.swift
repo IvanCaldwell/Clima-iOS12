@@ -32,7 +32,8 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Change
     @IBOutlet weak var weatherIcon: UIImageView!
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!
-
+    @IBOutlet weak var conversionSwitch: UISwitch!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -132,7 +133,12 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Change
     func updateUIWithWeatherData(){
         cityLabel.text = weatherDataModel.city
         weatherIcon.image = UIImage(named: weatherDataModel.weatherIconName)
-        temperatureLabel.text = String(weatherDataModel.temperature) + "°C"
+        if conversionSwitch.isOn {
+            temperatureLabel.text = String(weatherDataModel.temperature) + "°C"
+        } else {
+            temperatureLabel.text = String(weatherDataModel.temperature * 9 / 5 + 32) + "°F"
+        }
+        
     }
     
     //MARK: - Change City Delegate methods
@@ -157,6 +163,9 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Change
     
     
     
+    @IBAction func conversionSwitchToggled(_ sender: Any) {
+        updateUIWithWeatherData()
+    }
     
 }
 
