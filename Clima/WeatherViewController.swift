@@ -12,7 +12,9 @@ import CoreLocation
 import Alamofire
 import SwiftyJSON
 
-class WeatherViewController: UIViewController, CLLocationManagerDelegate {
+class WeatherViewController: UIViewController, CLLocationManagerDelegate, ChangeCityDelegate {
+   
+    
 // Conforms to the rules of the CLLOcationManagerDelegate
 // Xcode didn't yell at me for not conforming to the CLLocationManagerDelegate...
     
@@ -135,14 +137,23 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate {
     
     //MARK: - Change City Delegate methods
     /***************************************************************/
-    
-    
     //Write the userEnteredANewCityName Delegate method here:
-    
+    func userEnteredANewCityName(city: String) {
+        print(city)
+        let params: [String : String] = ["q": city, "appid": apiKey]
+        getWeatherData(url: WEATHER_URL, parameters: params)
+        
+    }
 
     
     //Write the PrepareForSegue Method here
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "changeCityName" {
+            let destinationVC = segue.destination as! ChangeCityViewController
+            destinationVC.delegate = self
+            
+        }
+    }
     
     
     
